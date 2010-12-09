@@ -1,3 +1,2 @@
-module Verser
-  # Your code goes here...
-end
+require File.dirname(__FILE__) + "/verser/reference"
+

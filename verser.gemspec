@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.description = %q{Verser is a bible verse/chapter reference parser}
 
   s.rubyforge_project = "verser"
-  s.add_development_dependency("rspec")
+  s.add_development_dependency "rspec", "~> 2.2.0"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
