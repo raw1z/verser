@@ -2,7 +2,7 @@
 
 module Verser
   class Reference
-    attr_reader :book, :chapter, :from, :to
+    attr_reader :book, :chapter, :from, :to, :input
 
     def initialize(input)
       @input = input
@@ -16,15 +16,15 @@ module Verser
     def parse
       @input.downcase.gsub(/\s/,'').match /(\d)?([a-zéèïëô]+)\s*(\d+)([.,:](\d+)-?(\d+)?)?/
 
-      if $1.nil?
-        @book = $2
+      @book = $1.nil? ? $2 : $1+$2
+      @chapter = $3.to_i == 0 ? nil : $3.to_i
+      
+      if $5.to_i > 0
+        @from = $5.to_i
+        @to = $6.to_i > 0 ? $6.to_i : nil
       else
-        @book = "#{$1}#{$2}"
+        @from = @to = nil
       end
-
-      @chapter = $3.to_i
-      @from = $5.to_i
-      @to = $6.to_i
 
       validate!
     end
@@ -32,8 +32,9 @@ module Verser
     def validate!
       @valid = true
       @valid = false if @book.nil? or @book.empty?
+      @valid = false if @chapter.nil?
 
-      unless @to.zero?
+      unless @from.nil? or @to.nil?
         @valid &&= (@from < @to)
       end
 
